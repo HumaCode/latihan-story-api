@@ -12,7 +12,9 @@ class StoryController extends Controller
     public function myStories(Request $request)
     {
         $user = $request->user();
-        $stories = $user->stories()->latest()->paginate(10);
+
+        // Eager load relasi user
+        $stories = $user->stories()->with('user')->latest()->paginate(10);
 
         return response()->json([
             'status' => true,
@@ -20,6 +22,7 @@ class StoryController extends Controller
             'data' => $stories,
         ]);
     }
+
 
     //store
     public function store(Request $request)
